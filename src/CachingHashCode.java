@@ -100,17 +100,9 @@ public class CachingHashCode {
 		while (!p.isEmpty()) {
 			video = p.poll();
 //			System.err.println(video.id + " " + video.totalLatencyFromVideo);
-			long bestScore = -1;
-			CacheServer bestCache = null;
-			for (CacheServer cache : problemStatement.cacheServers) {
-				if (cache.canAddVideo(video)) {
-					long newScore = latencyProfit(video, cache);
-					if (newScore > bestScore) {
-						bestScore = newScore;
-						bestCache = cache;
-					}
-				}
-			}
+			long bestScore = video.cachedProfit;
+			CacheServer bestCache = video.cachedBestCache;
+
 			if (bestCache != null) {
 				videosPlaced++;
 				bestCache.addVideo(video, bestScore);

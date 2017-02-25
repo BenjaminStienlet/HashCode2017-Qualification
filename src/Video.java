@@ -87,10 +87,12 @@ public class Video implements Comparable<Video> {
 		long best = 0, tmp;
 		CacheServer bestCache = null;
 		for (CacheServer cache : this.cachesPossibleProfit) {
-			tmp = latencyProfit(cache);
-			if (tmp > best) {
-				best = tmp;
-				bestCache = cache;
+			if (cache.canAddVideo(this)) {
+				tmp = latencyProfit(cache);
+				if (tmp > best) {
+					best = tmp;
+					bestCache = cache;
+				}
 			}
 		}
 		this.cachedProfit = best;
